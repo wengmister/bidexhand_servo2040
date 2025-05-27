@@ -6,6 +6,8 @@ include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
 # Set the path to pimoroni-pico
 set(PIMORONI_PICO_PATH "$ENV{HOME}/servo2040/pimoroni-pico")
 include(${PIMORONI_PICO_PATH}/pimoroni_pico_import.cmake)
+# Include the button driver
+include(${PIMORONI_PICO_PATH}/drivers/button/button.cmake)
 
 project(servo2040_controller C CXX ASM)
 set(CMAKE_C_STANDARD 11)
@@ -16,10 +18,17 @@ pico_sdk_init()
 
 # Add only the main servo2040 library (it includes everything else)
 add_subdirectory(${PIMORONI_PICO_PATH}/libraries/servo2040 servo2040_lib)
+# No need to add button library separately as it's part of servo2040
 
 # Add your source files
 add_executable(servo2040_controller
     servo2040_controller.cpp
+    ${PIMORONI_PICO_PATH}/drivers/button/button.cpp
+)
+
+# Include the correct path for the button.hpp file
+target_include_directories(servo2040_controller PRIVATE
+    ${PIMORONI_PICO_PATH}/drivers
 )
 
 # Remove manual PIO generation since servo2040 library handles this
