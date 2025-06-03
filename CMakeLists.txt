@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Pull in SDK (must be before project)
-include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+set(PICO_SDK_PATH "$ENV{HOME}/servo2040/pico-sdk")
+include(${PICO_SDK_PATH}/external/pico_sdk_import.cmake)
 
 # Set the path to pimoroni-pico
 set(PIMORONI_PICO_PATH "$ENV{HOME}/servo2040/pimoroni-pico")
